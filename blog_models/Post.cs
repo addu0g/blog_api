@@ -5,7 +5,8 @@ namespace blog_models
 {
     public class Post
     {
-        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [Key, Column(Order = 0)]
         public int Id { get; set; }
         [Required]
         public string Title { get; set; }

@@ -1,5 +1,7 @@
 ﻿using blog_data.Repository.IRepository;
 using blog_models;
+using blog_services;
+using blog_services.IServices;
 using Microsoft.AspNetCore.Mvc;
 
 namespace blog_api.Controllers
@@ -8,57 +10,56 @@ namespace blog_api.Controllers
     [Route("[controller]")]
     public class PostController : Controller
     {
-        private readonly IUnitOfWork _unitOfWork;
-        public PostController(IUnitOfWork unitOfWork)
+        private readonly IPostService _postService;
+        public PostController(IPostService postService)
         {
-            _unitOfWork = unitOfWork;
-
+            _postService = postService;
         }
 
-
-        [HttpGet(Name = "get")]
-        public Post Get(int postId)
-        {
-            return _unitOfWork.Post.Get(o => o.Id == postId, "Category");
-        }
-
-        [HttpHead(Name = "posts")]
+        [HttpGet]
         public IEnumerable<Post> GetAll()
         {
-            return _unitOfWork.Post.GetAll("Category");
+            return _postService.GetPosts();
+        }
+
+        [HttpGet("int/{postId:int}")]
+        public Post GetById(int postId)
+        {
+            return _postService.GetPost(postId);
         }
 
         [HttpPost(Name = "new")]
         public Post NewPost(string title, string content, int categoryId)
         {
-
-            Post newPost = new Post() { Title = title, Content = content, CategoryId = categoryId, TimeStamp = DateTime.Now };
-            _unitOfWork.Post.Add(newPost);
-            return newPost;
+            return _postService.AddPost(new Post() { Title = title, Content = content, CategoryId = categoryId });
         }
 
         [HttpPut(Name = "update")]
-        public Post UpdatePost(int? postId, string title, string content, int categoryId)
+        public Post UpdatePost(int postId, string title, string content, int categoryId)
         {
-            Post postToUpdate = _unitOfWork.Post.Get(o => o.Id == postId, "Category");
-            if(postToUpdate!= null)
+            Post postToUpdate = _postService.GetPost(postId);
+            if (postToUpdate != null)
             {
                 postToUpdate.Title = title;
                 postToUpdate.Content = content;
                 postToUpdate.CategoryId = categoryId;
-                _unitOfWork.Post.Update(postToUpdate);
+                postToUpdate = _postService.UpdatePost(postToUpdate);
             }
             return postToUpdate;
         }
 
-        [HttpDelete(Name = "delete")]
+        [HttpDelete]
+        public void DelAllPost()
+        {
+            _postService.RemovePosts();
+        }
+
+        [HttpDelete("int/{postId:int}")]
         public void DelPost(int postId)
         {
-            Post postToUpdate = _unitOfWork.Post.Get(o => o.Id == postId, "Category");
-            if (postToUpdate != null)
-            {
-                _unitOfWork.Post.Remove(postToUpdate);
-            }
+            _postService.RemovePost(postId);
         }
+
+
     }
 }

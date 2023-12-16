@@ -1,5 +1,4 @@
-﻿using blog_data.Repo.IRepo;
-using blog_models;
+﻿using blog_models;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -10,5 +10,11 @@ namespace blog_services.IServices
     public interface IPostService
     {
         IEnumerable<Post> GetPosts();
+        Post GetPost(int post);
+        Post AddPost(Post post);
+
+        Post UpdatePost(Post post);
+        void RemovePost(int postId);
+        void RemovePosts();
     }
 }

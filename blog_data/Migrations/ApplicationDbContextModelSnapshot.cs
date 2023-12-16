@@ -36,7 +36,7 @@ namespace blog_data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Category");
+                    b.ToTable("Category", (string)null);
 
                     b.HasData(
                         new
@@ -82,7 +82,7 @@ namespace blog_data.Migrations
 
                     b.HasIndex("CategoryId");
 
-                    b.ToTable("Post");
+                    b.ToTable("Post", (string)null);
 
                     b.HasData(
                         new

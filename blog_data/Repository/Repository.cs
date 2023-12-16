@@ -1,4 +1,4 @@
-﻿using blog_data.Repo.IRepo;
+﻿using blog_data.Repository.IRepository;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -18,9 +18,9 @@ namespace blog_data.Repository
             dbSet = _db.Set<T>();
         }
 
-        public void Add(T entity)
+        public T Add(T entity)
         {
-            dbSet.Add(entity);
+            return dbSet.Add(entity).Entity;
         }
 
         public T Get(System.Linq.Expressions.Expression<Func<T, bool>> filter, string? relationships = null)
@@ -55,6 +55,11 @@ namespace blog_data.Repository
         public void Remove(T entity)
         {
             dbSet.Remove(entity);
+        }
+
+        public void RemoveAll()
+        {
+            dbSet.RemoveRange(dbSet);
         }
     }
 }
