@@ -1,5 +1,6 @@
 ﻿using blog_data.Repository.IRepository;
 using blog_models;
+using blog_services.IServices;
 using Microsoft.AspNetCore.Mvc;
 
 namespace blog_api.Controllers
@@ -8,16 +9,16 @@ namespace blog_api.Controllers
     [Route("[controller]")]
     public class CategoryController : Controller
     {
-        private readonly IUnitOfWork _unitOfWork;
-        public CategoryController(IUnitOfWork unitOfWork)
+        private readonly ICategoryService _categoryService;
+        public CategoryController(ICategoryService categoryService)
         {
-            _unitOfWork = unitOfWork;
+            _categoryService = categoryService;
 
         }
         [HttpGet(Name = "categories")]
         public IEnumerable<Category> GetAll()
         {
-            return _unitOfWork.Category.GetAll();
+            return _categoryService.GetCategories();
         }
     }
 }

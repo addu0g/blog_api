@@ -9,6 +9,6 @@ namespace blog_services.IServices
 {
     public interface ICategoryService 
     {
-        IEnumerable<Post> GetCategories();
+        IEnumerable<Category> GetCategories();
     }
 }

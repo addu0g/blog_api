@@ -18,6 +18,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(o =>
 
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddTransient<IPostService, PostService>();
+builder.Services.AddTransient<ICategoryService, CategoryService>();
 
 var app = builder.Build();
 
